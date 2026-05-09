@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual env
+.venv/
+venv/
+env/
+
+# Secrets — never commit
+.env
+.env.*
+*.key
+
+# Cache
+/tmp/weather_cache.json
+.pytest_cache/
+
+# IDE
+.vscode/
+.idea/
+
+# Claude Code local settings (personal, not project config)
+.claude/settings.local.json
