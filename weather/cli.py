@@ -1,7 +1,12 @@
 import argparse
 import sys
 
+from rich.console import Console
+
 from .client import APIKeyError, CityNotFoundError, WeatherAPIError, get_weather
+from . import display
+
+err = Console(stderr=True, style="bold red")
 
 
 def run():
@@ -16,13 +21,13 @@ def run():
 
     try:
         data = get_weather(city)
-        print(data.display())
+        display.render(data)
     except CityNotFoundError as e:
-        print(f"Error: {e}", file=sys.stderr)
+        err.print(f"Error: {e}")
         sys.exit(1)
     except APIKeyError as e:
-        print(f"Config error: {e}", file=sys.stderr)
+        err.print(f"Config error: {e}")
         sys.exit(2)
     except WeatherAPIError as e:
-        print(f"Network error: {e}", file=sys.stderr)
+        err.print(f"Network error: {e}")
         sys.exit(3)

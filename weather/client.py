@@ -55,6 +55,7 @@ def _parse(raw: dict, is_stale: bool = False) -> WeatherData:
         description=raw["weather"][0]["description"],
         humidity=raw["main"]["humidity"],
         wind_speed=raw["wind"]["speed"],
+        condition_id=raw["weather"][0].get("id", 800),
         is_stale=is_stale,
     )
 

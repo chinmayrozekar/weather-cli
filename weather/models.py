@@ -10,14 +10,5 @@ class WeatherData:
     description: str
     humidity: int
     wind_speed: float
+    condition_id: int = 800
     is_stale: bool = False
-
-    def display(self) -> str:
-        stale_note = " [cached — live data unavailable]" if self.is_stale else ""
-        return (
-            f"The Weather in {self.city}, {self.country} is {self.description.capitalize()}\n"
-            f"  Temperature : {self.temperature}°C (feels like {self.feels_like}°C)\n"
-            f"  Humidity    : {self.humidity}%\n"
-            f"  Wind Speed  : {self.wind_speed} m/s"
-            f"{stale_note}"
-        )

@@ -10,7 +10,7 @@ MOCK_RESPONSE = {
     "name": "Mumbai",
     "sys": {"country": "IN"},
     "main": {"temp": 32.0, "feels_like": 35.0, "humidity": 80},
-    "weather": [{"description": "haze"}],
+    "weather": [{"id": 721, "description": "haze"}],
     "wind": {"speed": 4.5},
 }
 
