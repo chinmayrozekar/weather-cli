@@ -1,13 +1,17 @@
 # Weather CLI
 
-A lightweight Python CLI that fetches live weather data for any city using the [OpenWeatherMap API](https://openweathermap.org/api).
+A lightweight Python CLI that fetches live weather data for any city using the [OpenWeatherMap API](https://openweathermap.org/api), with a rich terminal UI featuring ASCII weather icons and colour-coded output.
 
 ```
-$ python main.py Mumbai
-The Weather in Mumbai, IN is Haze
-  Temperature : 33.4°C (feels like 40.1°C)
-  Humidity    : 72%
-  Wind Speed  : 4.1 m/s
+╭────────────────────────────────  Mumbai, IN  ────────────────────────────────╮
+│                                                                              │
+│      .--.        Moderate rain                                               │
+│   .-(    ).                                                                  │
+│  (___.__)__)     Temperature  28.0°C  (feels like 32.0°C)                    │
+│    ' ' ' '       Humidity     85%                                            │
+│   ' ' ' '        Wind         6.1 m/s                                        │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
 ```
 
 ---
@@ -15,11 +19,28 @@ The Weather in Mumbai, IN is Haze
 ## Features
 
 - Query weather for any city by name
-- Displays temperature, feels-like, humidity, and wind speed
+- ASCII weather icons — sun, clouds, rain, snow, thunderstorm, mist, and more
+- Colour-coded temperature (blue → cyan → green → yellow → orange → red)
+- Displays temperature, feels-like, humidity, and wind speed in a rich panel
 - 10-minute local cache — fast repeat lookups, no wasted API calls
 - Stale-cache fallback when the API is unreachable
 - Exponential backoff retry (up to 3 attempts) on transient network errors
 - Clean exit codes: `1` city not found, `2` bad API key, `3` network error
+
+---
+
+## Weather Icons
+
+| Condition | Icon |
+|---|---|
+| Clear sky | radiating sun `\ \| /` |
+| Few clouds | sun with cloud |
+| Cloudy | cloud `.--.` |
+| Drizzle | cloud + `, , ,` |
+| Rain | cloud + `' ' '` |
+| Thunderstorm | cloud + `⚡ ⚡` |
+| Snow | cloud + `* * *` |
+| Mist / Fog / Smoke | horizontal lines `≡ ≡ ≡` |
 
 ---
 
@@ -31,10 +52,11 @@ weather_cli/
 ├── requirements.txt
 ├── weather/
 │   ├── __init__.py
-│   ├── cli.py            # Argument parsing, output
+│   ├── cli.py            # Argument parsing, error output
 │   ├── client.py         # API calls, retry logic, cache integration
 │   ├── cache.py          # File-based TTL cache (/tmp/weather_cache.json)
 │   ├── config.py         # Env vars and constants
+│   ├── display.py        # Rich terminal rendering, ASCII icons
 │   └── models.py         # WeatherData dataclass
 └── tests/
     ├── __init__.py
@@ -54,7 +76,7 @@ Sign up at [openweathermap.org](https://openweathermap.org/api) and copy your AP
 ```bash
 git clone https://github.com/chinmayrozekar/weather-cli.git
 cd weather-cli
-python -m venv .venv
+python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
@@ -65,19 +87,23 @@ pip install -r requirements.txt
 export OPENWEATHER_API_KEY=your_api_key_here
 ```
 
-Add that line to your `~/.zshrc` or `~/.bashrc` to persist it.
+Add that line to your `~/.zshrc` or `~/.bashrc` to persist it across sessions.
 
 ---
 
 ## Usage
 
 ```bash
+# Activate venv first
+source .venv/bin/activate
+
 # Single-word city
-python main.py Chennai
+python3 main.py Mumbai
+python3 main.py Chennai
 
 # Multi-word city
-python main.py New Delhi
-python main.py "New Delhi"
+python3 main.py New Delhi
+python3 main.py "New Delhi"
 ```
 
 ---
